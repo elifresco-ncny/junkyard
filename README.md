@@ -4,6 +4,8 @@
 
 Junkyard is a free audio plug-in that wrecks your sound with lossy codec damage and tape wear.
 
+**Website:** [elifresco-ncny.github.io/junkyard](https://elifresco-ncny.github.io/junkyard)
+
 [![Download for Mac](https://img.shields.io/badge/Download_for_Mac-1.0.0-f2b41a?style=for-the-badge)](https://github.com/elifresco-ncny/junkyard/releases/download/v1.0.0/Junkyard-1.0.0-mac.pkg)
 [![Download for Windows](https://img.shields.io/badge/Download_for_Windows-1.0.0-f2b41a?style=for-the-badge)](https://github.com/elifresco-ncny/junkyard/releases/download/v1.0.0/Junkyard-1.0.0-windows-x64.zip)
 

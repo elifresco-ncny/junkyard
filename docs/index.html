@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junkyard</title>
+<meta name="description" content="Junkyard is a free audio plug-in that wrecks your sound with lossy codec damage and tape wear. Mac and Windows.">
+<meta property="og:title" content="Junkyard">
+<meta property="og:description" content="Free audio plug-in: lossy codec damage and tape wear. Mac and Windows.">
+<meta property="og:image" content="https://elifresco-ncny.github.io/junkyard/img/junkyard.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #17191c; --bg2: #1d2024; --panel: #24272c; --edge: #33373d;
+    --hazard: #f2b41a; --text: #e8e6e1; --dim: #9a9890;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: linear-gradient(180deg, var(--bg2), var(--bg)) fixed;
+    color: var(--text);
+    font-family: "Share Tech Mono", ui-monospace, Menlo, monospace;
+    min-height: 100vh;
+  }
+  .stripe {
+    height: 10px;
+    background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, #111 14px 28px);
+  }
+  main { max-width: 1000px; margin: 0 auto; padding: 48px 16px 64px; text-align: center; }
+  h1 {
+    font-family: "Bebas Neue", Impact, sans-serif;
+    color: var(--hazard);
+    font-size: clamp(64px, 14vw, 132px);
+    font-weight: 400; letter-spacing: 2px; line-height: 0.9; margin: 0;
+  }
+  .tag { font-size: clamp(16px, 2.6vw, 21px); color: var(--text); margin: 18px auto 40px; max-width: 640px; line-height: 1.5; }
+  .buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-width: 300px; padding: 26px 40px;
+    border-radius: 14px; text-decoration: none;
+    font-family: "Bebas Neue", Impact, sans-serif; font-size: 44px; letter-spacing: 1.5px; line-height: 1;
+    background: var(--hazard); color: #141414;
+    border: 3px solid var(--hazard);
+    box-shadow: 0 8px 0 #9c7108, 0 14px 30px rgba(0,0,0,0.45);
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .btn small { font-family: "Share Tech Mono", monospace; font-size: 15px; letter-spacing: 0; margin-top: 8px; opacity: 0.8; }
+  .btn:hover { transform: translateY(2px); box-shadow: 0 6px 0 #9c7108, 0 10px 24px rgba(0,0,0,0.45); }
+  .btn:active { transform: translateY(8px); box-shadow: 0 0 0 #9c7108, 0 4px 12px rgba(0,0,0,0.45); }
+  .btn.other { background: transparent; color: var(--hazard); box-shadow: 0 8px 0 #3a2c08, 0 14px 30px rgba(0,0,0,0.35); }
+  .btn.other:hover { box-shadow: 0 6px 0 #3a2c08, 0 10px 24px rgba(0,0,0,0.35); }
+  .reqs { color: var(--dim); font-size: 15px; margin: 26px 0 0; line-height: 1.7; }
+  .shot {
+    display: block; width: 100%; max-width: 960px; height: auto; margin: 56px auto 0;
+    border-radius: 12px; border: 1px solid var(--edge); box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+  }
+  .install {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;
+    max-width: 960px; margin: 48px auto 0;
+  }
+  .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 20px 22px; }
+  .card h2 { font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; color: var(--hazard); font-size: 30px; letter-spacing: 1px; margin: 0 0 8px; }
+  .card p { margin: 0; line-height: 1.6; font-size: 15px; }
+  code { color: var(--hazard); word-break: break-all; }
+  footer { color: var(--dim); font-size: 13px; margin-top: 56px; line-height: 1.8; }
+  footer a { color: var(--dim); }
+  @media (max-width: 700px) {
+    .btn { min-width: 0; width: 100%; font-size: 38px; }
+    .install { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="stripe"></div>
+<main>
+  <h1>JUNKYARD</h1>
+  <p class="tag">A free audio plug-in that wrecks your sound with lossy codec damage and tape wear.</p>
+
+  <div class="buttons" id="buttons">
+    <a class="btn" id="mac" href="https://github.com/elifresco-ncny/junkyard/releases/download/v1.0.0/Junkyard-1.0.0-mac.pkg">
+      Download for Mac<small>VST3 / AU · macOS 11+</small>
+    </a>
+    <a class="btn" id="win" href="https://github.com/elifresco-ncny/junkyard/releases/download/v1.0.0/Junkyard-1.0.0-windows-x64.zip">
+      Download for Windows<small>VST3 · Windows 10/11, 64-bit</small>
+    </a>
+  </div>
+  <p class="reqs">Version 1.0.0 · Mac: Apple Silicon and Intel · Free</p>
+
+  <img class="shot" src="img/junkyard.png" alt="The Junkyard plug-in window" width="960" height="560">
+
+  <div class="install">
+    <div class="card">
+      <h2>Mac</h2>
+      <p>Open the installer, click through, then restart your DAW.</p>
+    </div>
+    <div class="card">
+      <h2>Windows</h2>
+      <p>Unzip, copy the <code>Junkyard.vst3</code> folder into <code>C:\Program Files\Common Files\VST3</code>, then restart your DAW.</p>
+    </div>
+  </div>
+
+  <footer>
+    Free and open source (GNU AGPL-3.0) · <a href="https://github.com/elifresco-ncny/junkyard">Source code</a> · <a href="https://github.com/elifresco-ncny/junkyard/releases">All downloads</a><br>
+    VST is a registered trademark of Steinberg Media Technologies GmbH. Audio Units is a trademark of Apple Inc.
+  </footer>
+</main>
+<div class="stripe"></div>
+<script>
+  // Put the visitor's platform first and make the other button the outlined one.
+  (function () {
+    var ua = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || "";
+    var isWin = /win/i.test(ua), isMac = /mac/i.test(ua);
+    var mac = document.getElementById("mac"), win = document.getElementById("win"), box = document.getElementById("buttons");
+    if (isWin) { box.insertBefore(win, mac); mac.classList.add("other"); }
+    else if (isMac) { win.classList.add("other"); }
+  })();
+</script>
+</body>
+</html>
