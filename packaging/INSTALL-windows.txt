@@ -1,0 +1,7 @@
+JUNKYARD - Windows 10/11 (64-bit, VST3)
+
+1. Copy the whole Junkyard.vst3 folder into C:\Program Files\Common Files\VST3\
+2. Restart your DAW.
+
+To uninstall, delete that folder.
+Free software (AGPL-3.0): see LICENSE.txt, THIRD_PARTY_NOTICES.txt and SOURCE.txt.

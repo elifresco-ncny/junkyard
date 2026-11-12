@@ -1,0 +1,9 @@
+JUNKYARD - Mac (macOS 11 or newer, Apple Silicon and Intel)
+
+The easiest way is the .pkg installer. To install from this zip instead:
+1. Copy Junkyard.vst3 into /Library/Audio/Plug-Ins/VST3/
+   Copy Junkyard.component into /Library/Audio/Plug-Ins/Components/
+2. Restart your DAW.
+
+To uninstall, delete those two files.
+Free software (AGPL-3.0): see LICENSE.txt, THIRD_PARTY_NOTICES.txt and SOURCE.txt.

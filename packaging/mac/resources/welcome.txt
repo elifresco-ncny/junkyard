@@ -1,0 +1,3 @@
+Junkyard is a free audio plug-in that wrecks your sound with lossy codec damage and tape wear.
+
+This installs the VST3 and Audio Unit versions. When it's done, restart your DAW.

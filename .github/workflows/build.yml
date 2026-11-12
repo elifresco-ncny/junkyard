@@ -1,0 +1,81 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: .deps
+          key: deps-${{ runner.os }}-${{ hashFiles('cmake/Dependencies.cmake') }}
+      - name: Install tools
+        run: |
+          brew install ninja
+          softwareupdate --install-rosetta --agree-to-license || true
+      - name: Build, test, package (unsigned; CI never signs)
+        env:
+          JUNKYARD_DEPS_DIR: ${{ github.workspace }}/.deps
+        run: scripts/release-mac.sh --unsigned
+      - uses: actions/upload-artifact@v4
+        with:
+          name: junkyard-mac-unsigned
+          path: dist/*.zip
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: .deps
+          key: deps-${{ runner.os }}-${{ hashFiles('cmake/Dependencies.cmake') }}
+      - name: Build, test, validate, package
+        shell: pwsh
+        env:
+          JUNKYARD_DEPS_DIR: ${{ github.workspace }}\.deps
+        run: scripts/build-windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: junkyard-windows
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS-windows.txt
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [mac, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: junkyard-windows
+          path: dist
+      - name: Extract the CHANGELOG section for this version
+        run: |
+          VER="${GITHUB_REF_NAME#v}"
+          awk -v v="## v$VER" 'index($0, v)==1 {p=1; next} /^## / {p=0} p' docs/CHANGELOG.md > release-notes.md
+          [ -s release-notes.md ] || echo "Junkyard $VER" > release-notes.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: Junkyard ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: |
+            dist/*.zip
+            dist/SHA256SUMS-windows.txt

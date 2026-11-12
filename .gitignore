@@ -1,0 +1,11 @@
+build/
+renders/
+testaudio/
+tools/bin/
+.venv/
+.DS_Store
+*.log
+build-*/
+dist/
+.deps/
+scripts/release.env

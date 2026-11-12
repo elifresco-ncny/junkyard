@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="2">
+  <title>Junkyard @VERSION@</title>
+  <welcome file="welcome.txt"/>
+  <license file="LICENSE.txt"/>
+  <options customize="allow" require-scripts="false" hostArchitectures="arm64,x86_64"/>
+  <domains enable_localSystem="true" enable_currentUserHome="false" enable_anywhere="false"/>
+  <allowed-os-versions><os-version min="11.0"/></allowed-os-versions>
+  <choices-outline><line choice="vst3"/><line choice="au"/></choices-outline>
+  <choice id="vst3" title="VST3 plug-in" description="Installs Junkyard.vst3 into /Library/Audio/Plug-Ins/VST3.">
+    <pkg-ref id="com.junkyardaudio.junkyard.vst3"/></choice>
+  <choice id="au" title="Audio Unit plug-in" description="Installs Junkyard.component into /Library/Audio/Plug-Ins/Components.">
+    <pkg-ref id="com.junkyardaudio.junkyard.au"/></choice>
+  <pkg-ref id="com.junkyardaudio.junkyard.vst3" version="@VERSION@">Junkyard-VST3.pkg</pkg-ref>
+  <pkg-ref id="com.junkyardaudio.junkyard.au" version="@VERSION@">Junkyard-AU.pkg</pkg-ref>
+</installer-gui-script>

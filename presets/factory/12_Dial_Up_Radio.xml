@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JUNKYARD stateVersion="3" presetName="Dial-Up Radio">
+  <PARAM id="input_gain" value="0"/>
+  <PARAM id="codec_on" value="1"/>
+  <PARAM id="codec_mode" value="1"/>
+  <PARAM id="bitrate" value="0.0766"/>
+  <PARAM id="swirl" value="30"/>
+  <PARAM id="hf_loss" value="50"/>
+  <PARAM id="glitch" value="0"/>
+  <PARAM id="tape_on" value="1"/>
+  <PARAM id="wow" value="7.4"/>
+  <PARAM id="flutter" value="7.5"/>
+  <PARAM id="saturation" value="12.0"/>
+  <PARAM id="hiss" value="55"/>
+  <PARAM id="tape_age" value="50"/>
+  <PARAM id="tape_tone" value="6641"/>
+  <PARAM id="order" value="0"/>
+  <PARAM id="width" value="0"/>
+  <PARAM id="low_keep" value="0"/>
+  <PARAM id="low_keep_freq" value="150"/>
+  <PARAM id="mix" value="100"/>
+  <PARAM id="output_gain" value="-2.3"/>
+</JUNKYARD>
