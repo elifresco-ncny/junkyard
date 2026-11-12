@@ -30,7 +30,7 @@ class EditorContent : public juce::Component
 public:
     explicit EditorContent (JunkyardAudioProcessor& p)
         : proc (p), apvts (p.apvts),
-          codecPanel ("CODEC"), tapePanel ("TAPE"), stereoPanel ("STEREO"),
+          codecPanel ("CODEC"), tapePanel ("TAPE"), signalPanel ("SIGNAL"),
           mode (apvts, pid::codecMode, { "MP3", "STREAM", "BROKEN" },
                 "Codec type. MP3: gaps and swirl. Stream: smoother, with noise filling the gaps. Broken: corrupted, stuttering data."),
           order (apvts, pid::order, { "CODEC > TAPE", "TAPE > CODEC" }, "CODEC > TAPE: the tape processes the codec's output. TAPE > CODEC: the codec processes the tape's output."),
@@ -53,7 +53,7 @@ public:
     {
         codecPanel.setPower (apvts, pid::codecOn, "Turns the Codec section on or off.");
         tapePanel.setPower (apvts, pid::tapeOn, "Turns the Tape section on or off.");
-        for (auto* c : { &codecPanel, &tapePanel, &stereoPanel }) addAndMakeVisible (*c);
+        for (auto* c : { &codecPanel, &tapePanel, &signalPanel }) addAndMakeVisible (*c);
 
         codecPanel.addAndMakeVisible (mode); codecPanel.addAndMakeVisible (lcdBox);
         for (auto* k : { &bitrate, &swirl, &hfLoss, &glitch }) codecPanel.addAndMakeVisible (*k);
@@ -64,7 +64,7 @@ public:
         learn.onLearn = [this] { if (proc.getLearnUiState() != LearnButton::Listening) proc.startLearn(); };
         learn.onUseDefault = [this] { proc.useDefaultCurve(); };
         learn.canUseDefault = [this] { return proc.isLearned(); };
-        stereoPanel.addAndMakeVisible (width); stereoPanel.addAndMakeVisible (lowKey); stereoPanel.addAndMakeVisible (lowFreq);
+        signalPanel.addAndMakeVisible (width); signalPanel.addAndMakeVisible (lowKey); signalPanel.addAndMakeVisible (lowFreq);
         for (auto* c : { (juce::Component*) &scope, (juce::Component*) &presetBar, (juce::Component*) &gear, (juce::Component*) &order,
                          (juce::Component*) &mix, (juce::Component*) &out, (juce::Component*) &in })
             addAndMakeVisible (*c);
@@ -81,7 +81,7 @@ public:
             int x = 14; for (auto* k : { &wow, &flutter, &sat, &hiss, &age, &tone }) { k->setBounds (x, 46, 90, 100); x += 96; }
             learn.setBounds (sat.getBounds().getCentreX() - LearnButton::kWidth / 2, 16 - LearnButton::kHeight / 2, LearnButton::kWidth, LearnButton::kHeight);   // header row, above the stripe; the push button's centre = the Drive knob's centre
         };
-        stereoPanel.layoutBody = [this] (juce::Rectangle<int>)
+        signalPanel.layoutBody = [this] (juce::Rectangle<int>)
         {
             width.setBounds (28, 46, 100, 100); lowKey.setBounds (160, 52, 130, 24); lowFreq.setBounds (172, 80, 100, 66);
         };
@@ -115,7 +115,7 @@ public:
         codecPanel.setBounds (12, 52, 468, 262);
         scope.setBounds (490, 52, 458, 262);
         tapePanel.setBounds (12, 322, 600, 158);
-        stereoPanel.setBounds (620, 322, 328, 158);
+        signalPanel.setBounds (620, 322, 328, 158);
         presetBar.setBounds (260, 10, 560, 32);
         gear.setBounds (918, 8, 34, 34);
         order.setBounds (84, 514, 250, 32);
@@ -218,7 +218,7 @@ private:
 
     JunkyardAudioProcessor& proc;
     juce::AudioProcessorValueTreeState& apvts;
-    SectionPanel codecPanel, tapePanel, stereoPanel;
+    SectionPanel codecPanel, tapePanel, signalPanel;
     SegmentedChoice mode, order;
     LcdReadout lcdBox;
     LearnButton learn;

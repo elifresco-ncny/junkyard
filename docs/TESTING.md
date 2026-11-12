@@ -53,7 +53,7 @@ Hidden `[.report]` test (`build/junkyard_tests "[.report]"`) prints the measured
 - pluginval strictness 10 (`validate.sh max au`, GUI tests skipped as in the sandboxed dev loop): VST3 **pass**, AU (installed) **pass**; `auval -v aufx Jky1 Jnky` **pass**.
 - `junkyard_soak 1 wrecked` (Age/Wow/Flutter 100, Glitch 50, modes cycling, random everything else, 1 h simulated): 0 non-finite samples, peak 1.96, CPU flat 0.87 %, memory growth 0 KB.
 - `junkyard_bench 10` (Age/Wow/Flutter 100, Sat 60, tape + Low Keep on, 48 kHz / 128): MP3 1.26 %, Stream 1.01 %, Broken 0.90 % of one core; `junkyard_bench 10 20` (20 instances, Stream): 19.2 % total (0.96 % each).
-- `junkyard_shot` at 100 % and 150 % (`renders/v0.3/ui/`): CODEC / TAPE / STEREO fill the panels, no hole where Crunch was.
+- `junkyard_shot` at 100 % and 150 % (`renders/v0.3/ui/`): CODEC / TAPE / STEREO (now SIGNAL) fill the panels, no hole where Crunch was.
 
 ## Not testable here (owner's checklist)
 - Offline render / Freeze / Export in Ableton; sample-rate change in Live's audio prefs while playing; real-project use for a session; listening judgement of every mode.
