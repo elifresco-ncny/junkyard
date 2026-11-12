@@ -1,4 +1,4 @@
-// junkyard_shot out.png [scale=1.0] [--set id=value]... [--audio in.wav]
+// junkyard_shot out.png [scale=1.0] [--preset "Name"] [--set id=value]... [--audio in.wav]
 // Renders the editor offscreen (no window) after pushing audio through the plugin so the Damage Scope has content.
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
@@ -24,6 +24,7 @@ int main (int argc, char** argv)
             else if (auto* p = proc.apvts.getParameter (id)) p->setValueNotifyingHost (p->convertTo0to1 ((float) v));
         }
         else if (a == "--audio" && i + 1 < argc) audioPath = argv[++i];
+        else if (a == "--preset" && i + 1 < argc) { if (! proc.presets.loadByName (argv[++i])) { std::cerr << "no preset " << argv[i] << "\n"; return 1; } }   // factory/user preset by name
         else if (a == "--learn") doLearn = true;             // run a Drive Learn first: the button shows the learned state
         else if (a == "--listening") midLearn = true;        // snapshot while Learn is still listening
         else scale = a.getFloatValue();
