@@ -286,8 +286,9 @@ TEST_CASE ("tape full chain: finite output at extremes")
     auto in = musicish (48000 * 5, 48000, 3); std::vector<float> out (in.size());
     for (size_t pos = 0; pos < in.size(); pos += 256)
     {
+        const int n = (int) std::min<size_t> (256, in.size() - pos);   // the last block is partial (240000 is not a multiple of 256)
         const float* ip[2] = { in.data() + pos, in.data() + pos }; float* op[2] = { out.data() + pos, out.data() + pos };
-        t.process (ip, op, 256);
+        t.process (ip, op, n);
     }
     for (float v : out) REQUIRE (std::isfinite (v));
 }
