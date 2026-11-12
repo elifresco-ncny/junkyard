@@ -1,4 +1,4 @@
-// junkyard_shot out.png [scale=1.0] [--preset "Name"] [--set id=value]... [--audio in.wav]
+// junkyard_shot out.png [scale=1.0] [--preset "Name"] [--set id=value]... [--audio in.wav|mp3] [--offset seconds] [--learn]
 // Renders the editor offscreen (no window) after pushing audio through the plugin so the Damage Scope has content.
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
@@ -11,7 +11,7 @@ int main (int argc, char** argv)
 {
     juce::ScopedJuceInitialiser_GUI init;
     if (argc < 2) { std::cerr << "usage: junkyard_shot out.png [scale] [--set id=value] [--audio in.wav]\n"; return 1; }
-    float scale = 1.0f; juce::String audioPath; bool doLearn = false, midLearn = false;
+    float scale = 1.0f; double offsetSec = 0.0; juce::String audioPath; bool doLearn = false, midLearn = false;
     JunkyardAudioProcessor proc;
     proc.setPlayConfigDetails (2, 2, 48000, 512);
     for (int i = 2; i < argc; ++i)
@@ -24,6 +24,7 @@ int main (int argc, char** argv)
             else if (auto* p = proc.apvts.getParameter (id)) p->setValueNotifyingHost (p->convertTo0to1 ((float) v));
         }
         else if (a == "--audio" && i + 1 < argc) audioPath = argv[++i];
+        else if (a == "--offset" && i + 1 < argc) offsetSec = juce::String (argv[++i]).getDoubleValue();   // start this far into the audio file
         else if (a == "--preset" && i + 1 < argc) { if (! proc.presets.loadByName (argv[++i])) { std::cerr << "no preset " << argv[i] << "\n"; return 1; } }   // factory/user preset by name
         else if (a == "--learn") doLearn = true;             // run a Drive Learn first: the button shows the learned state
         else if (a == "--listening") midLearn = true;        // snapshot while Learn is still listening
@@ -38,7 +39,12 @@ int main (int argc, char** argv)
     {
         juce::AudioFormatManager fm; fm.registerBasicFormats();
         std::unique_ptr<juce::AudioFormatReader> rd (fm.createReaderFor (juce::File (audioPath)));
-        if (rd) { src.setSize (2, (int) rd->lengthInSamples); rd->read (&src, 0, (int) rd->lengthInSamples, 0, true, true); }
+        if (rd)
+        {
+            const auto start = juce::jlimit ((juce::int64) 0, rd->lengthInSamples, (juce::int64) (offsetSec * rd->sampleRate));
+            const int n = (int) (rd->lengthInSamples - start);
+            src.setSize (2, n); rd->read (&src, 0, n, start, true, true);
+        }
     }
     if (doLearn || midLearn) proc.startLearn();
     juce::MidiBuffer midi; std::mt19937 g (3); std::normal_distribution<float> d (0.0f, 0.1f);
