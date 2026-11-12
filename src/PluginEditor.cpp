@@ -135,8 +135,6 @@ public:
             g.drawText ("JUNKYARD", 18, 6, 230, 44, juce::Justification::centredLeft, false);   // v1.0: no subtitle; centred on the preset bar row
             g.setColour (textDim); g.setFont (l->display (20.0f));
             g.drawText ("ORDER", 18, 514, 60, 32, juce::Justification::centredLeft, false);
-            // footer plate
-            g.setColour (juce::Colours::black.withAlpha (0.35f)); g.fillRect (0, 486, getWidth(), 2);
             if (JUNKYARD_DEV_BUILD || proc.getShowStamp())
             {
                 g.setColour (textDim.withAlpha (0.8f)); g.setFont (l->mono (10.0f));

@@ -36,10 +36,11 @@
     font-weight: 400; letter-spacing: 2px; line-height: 0.9; margin: 0;
   }
   .tag { font-size: clamp(16px, 2.6vw, 21px); color: var(--text); margin: 18px auto 40px; max-width: 640px; line-height: 1.5; }
-  .buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  /* Two equal columns sized to the wider button, so both buttons match. */
+  .buttons { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .btn {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-width: 300px; padding: 26px 40px;
+    padding: 26px 40px;
     border-radius: 14px; text-decoration: none;
     font-family: "Bebas Neue", Impact, sans-serif; font-size: 44px; letter-spacing: 1.5px; line-height: 1;
     background: var(--hazard); color: #141414;
@@ -52,7 +53,6 @@
   .btn:active { transform: translateY(8px); box-shadow: 0 0 0 #9c7108, 0 4px 12px rgba(0,0,0,0.45); }
   .btn.other { background: transparent; color: var(--hazard); box-shadow: 0 8px 0 #3a2c08, 0 14px 30px rgba(0,0,0,0.35); }
   .btn.other:hover { box-shadow: 0 6px 0 #3a2c08, 0 10px 24px rgba(0,0,0,0.35); }
-  .reqs { color: var(--dim); font-size: 15px; margin: 26px 0 0; line-height: 1.7; }
   .shot {
     display: block; width: 100%; max-width: 960px; height: auto; margin: 56px auto 0;
     border-radius: 12px; border: 1px solid var(--edge); box-shadow: 0 24px 60px rgba(0,0,0,0.55);
@@ -64,11 +64,11 @@
   .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 20px 22px; }
   .card h2 { font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; color: var(--hazard); font-size: 30px; letter-spacing: 1px; margin: 0 0 8px; }
   .card p { margin: 0; line-height: 1.6; font-size: 15px; }
-  code { color: var(--hazard); word-break: break-all; }
   footer { color: var(--dim); font-size: 13px; margin-top: 56px; line-height: 1.8; }
   footer a { color: var(--dim); }
   @media (max-width: 700px) {
-    .btn { min-width: 0; width: 100%; font-size: 38px; }
+    .buttons { display: grid; grid-template-columns: 1fr; }
+    .btn { font-size: 38px; }
     .install { grid-template-columns: 1fr; }
   }
 </style>
@@ -87,7 +87,6 @@
       Download for Windows<small>VST3 · Windows 10/11, 64-bit</small>
     </a>
   </div>
-  <p class="reqs">Version 1.0.0 · Mac: Apple Silicon and Intel · Free</p>
 
   <img class="shot" src="img/junkyard.png" alt="The Junkyard plug-in window" width="960" height="560">
 
@@ -98,7 +97,7 @@
     </div>
     <div class="card">
       <h2>Windows</h2>
-      <p>Unzip, copy the <code>Junkyard.vst3</code> folder into <code>C:\Program Files\Common Files\VST3</code>, then restart your DAW.</p>
+      <p>Unzip, copy the Junkyard.vst3 folder into C:\Program Files\Common Files\VST3, then restart your DAW.</p>
     </div>
   </div>
 
