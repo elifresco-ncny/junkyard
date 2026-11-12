@@ -137,7 +137,11 @@ void TapeAge::controlTick()
     const float t60 = 0.15f + 0.60f * a;
     const float gHalo = kHaloCal * std::pow (10.0f, haloDb / 20.0f) * std::sqrt (0.45f / t60) * rampIn;
     const float cDry = std::sqrt (std::max (0.0f, 1.0f - std::pow (10.0f, haloDb / 10.0f) * rampIn * rampIn));
-    rDry.aim (cDry); rHalo.aim (gHalo);
+    // fixed makeup above the old Age 100 % (engine amount > 1, reachable since the knob drives kAgeStrength): the louder halo
+    // smears transients and costs up to ~1 dB of loudness; +1 dB per unit above 1 (+0.5 dB at 1.5) re-centres it.
+    // A pure function of the Age amount, never of the signal; exactly 1 for a <= 1, so everything up to the old maximum is unchanged.
+    const float mk = a > 1.0f ? std::pow (10.0f, kAgeTopMakeupDbPerUnit * (a - 1.0f) / 20.0f) : 1.0f;
+    rDry.aim (cDry * mk); rHalo.aim (gHalo * mk);
     for (int c = 0; c < nch; ++c)
         for (int i = 0; i < 4; ++i) fdnG[c][i] = std::pow (10.0f, -3.0f * (float) fdnLen[c][i] / (t60 * (float) sr));
     jitAmt = 0.00012f * (float) sr * a;

@@ -129,7 +129,7 @@ EngineParams ParamRefs::read() const
     p.bitrate = bitrate->load(); p.swirl = swirl->load() * 0.01f; p.hfLoss = hfLoss->load() * 0.01f; p.glitch = glitch->load() * 0.01f;
     p.tapeOn = tapeOn->load() > 0.5f; p.wow = wow->load() * 0.01f; p.flutter = flutter->load() * 0.01f;
     p.saturation = saturation->load() * 0.01f; p.hiss = hiss->load() * 0.01f; p.toneHz = tone->load();
-    p.age = age->load() * 0.01f; p.order = juce::jlimit (0, 1, (int) std::lround (order->load()));
+    p.age = age->load() * 0.01f * kAgeStrength; p.order = juce::jlimit (0, 1, (int) std::lround (order->load()));
     p.width = width->load() * 0.01f; p.lowKeep = lowKeep->load() > 0.5f; p.lowKeepFreq = lowKeepFreq->load();
     p.mix = mix->load() * 0.01f;
     return p;

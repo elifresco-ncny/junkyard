@@ -15,6 +15,7 @@ namespace jy
 // Calibrated overall gain constants (halo / bleed level targets are measured on the full-mix corpus at -14 LUFS and asserted in
 // tests/test_age.cpp). Regenerate with `junkyard_calibrate age`.
 inline constexpr float kHaloCal = 1.07f;    // empirical: halo-only RMS re signal = -31 / -25 / -15.5 dB at Age 20 / 50 / 100 (plan: -34 / -25 / -14, +-3)
+inline constexpr float kAgeTopMakeupDbPerUnit = 1.0f;   // static makeup above Age amount 1 (see controlTick); 0 at or below 1
 inline constexpr float kBleedCal = 1.377f;   // empirical: bleed-only RMS re signal = -51 / -44 / -32 dB at Age 20 / 50 / 100
 
 inline void flushBq (Biquad& b) { if (std::fabs (b.z1) < 1e-12) b.z1 = 0.0; if (std::fabs (b.z2) < 1e-12) b.z2 = 0.0; }

@@ -313,3 +313,15 @@ TEST_CASE ("neutral tape defaults: Wow, Flutter, Drive, Hiss, Age 0, Tone Off; c
     REQUIRE (e.toneHz == 20000.0f); REQUIRE (e.swirl == 0.25f);
     REQUIRE (std::fabs (kbpsToBitrate (0, 64.0f) - 0.5637f) < 1e-3f);
 }
+
+// ------------------------------------------------------------------ v1.0.0: Age knob strength (owner: "50 % more powerful")
+TEST_CASE ("Age knob strength: 100 % drives the Age engine at 1.5, about 67 % matches the old 100 %, 0 % is off")
+{
+    JunkyardAudioProcessor p; ParamRefs r; r.bind (p.apvts);
+    auto set = [&] (float pct) { auto* pr = p.apvts.getParameter ("tape_age"); pr->setValueNotifyingHost (pr->convertTo0to1 (pct)); };
+    set (100.0f); REQUIRE (std::fabs (r.read().age - kAgeStrength) < 1e-4f);
+    REQUIRE (kAgeStrength == 1.5f);
+    set (66.7f);  REQUIRE (std::fabs (r.read().age - 1.0f) < 2e-3f);
+    set (50.0f);  REQUIRE (std::fabs (r.read().age - 0.75f) < 1e-4f);
+    set (0.0f);   REQUIRE (r.read().age == 0.0f);
+}

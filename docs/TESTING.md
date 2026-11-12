@@ -75,3 +75,4 @@ Hidden `[.report]` test (`build/junkyard_tests "[.report]"`) prints the measured
 ### v1.0.0 re-verification after the title/section-title UI change
 - Dev build #58: 96/96 tests, pluginval VST3 + AU, auval pass. Universal Release rebuilt: all 96 tests pass on arm64 and on x86_64 (12,773,055 assertions), pluginval strictness 10 pass on both slices. Unsigned zip and structure-test pkg regenerated.
 - Layout measured on offscreen renders against the mockups: JUNKYARD glyph centre y = 26.0 (preset bar centre 26); CODEC glyph 8.0-24.0 (6 px above, 6 px below the stripe), x = 19 + side bearing; ON text centre y = 16.0 = title glyph centre.
+- v1.0.0 Age x1.5: 98 test cases (new: Age knob strength mapping; Age at the new knob maximum: silent in = silent out per part, gain neutral within 1 dB on every corpus material at -14 / -30 LUFS, finite, bounded, halo >= 5 dB above the old Age 100 %). All existing Age tests unchanged.

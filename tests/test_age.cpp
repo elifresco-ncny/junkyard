@@ -295,3 +295,32 @@ TEST_CASE ("age is gain neutral: Age 100 within 1 dB of Age 0 on every corpus ma
             REQUIRE (std::fabs (d) <= 1.0);
         }
 }
+
+TEST_CASE ("age at the new knob maximum (engine 1.5): silent in is silent out, gain neutral, finite, bounded, stronger than the old 100 %")
+{
+    const float aMax = kAgeStrength;
+    for (int solo : { kAll, kHalo, kCrackle, kBleed, kMistrack })
+    {
+        const auto o = runTape (ageParams (aMax), mono2 (std::vector<float> ((size_t) (2 * kFs), 0.0f)), 64, kFs, solo);
+        for (size_t i = 0; i < o.size(); ++i) { REQUIRE (o.l[i] == 0.0f); REQUIRE (o.r[i] == 0.0f); }
+    }
+    for (int k = 0; k < corpus::kNumKinds; ++k)
+        for (double L : { -14.0, -30.0 })
+        {
+            const auto m = corpusAt (k, L, 10.0);
+            const auto a0 = runTape (ageParams (0.0f), m), a1 = runTape (ageParams (aMax), m);
+            float pk = 0.0f; bool finite = true;
+            for (size_t i = 0; i < a1.size(); ++i) { finite = finite && std::isfinite (a1.l[i]) && std::isfinite (a1.r[i]); pk = std::max ({ pk, std::fabs (a1.l[i]), std::fabs (a1.r[i]) }); }
+            const double d = jy::loud::lufs (a1.l, a1.r, (size_t) kFs, m.size(), kFs) - jy::loud::lufs (a0.l, a0.r, (size_t) kFs, m.size(), kFs);
+            INFO (corpus::kindName (k) << " at " << L << " LUFS: " << d << " dB, peak " << pk);
+            REQUIRE (finite);
+            REQUIRE (pk <= 2.0f);              // tape stage output before the engine's limiter (+6 dBFS ceiling)
+            REQUIRE (std::fabs (d) <= 1.0);
+        }
+    // stronger: the halo-only level on the full mix is well above the old Age 100 %
+    const auto m = corpusAt (corpus::FullMix, -14.0, 10.0);
+    const size_t from = (size_t) (2 * kFs);
+    const double h1 = rmsStereoDb (runTape (ageParams (1.0f), m, 64, kFs, kHalo), from), h15 = rmsStereoDb (runTape (ageParams (aMax), m, 64, kFs, kHalo), from);
+    INFO ("halo re old max: " << h15 - h1 << " dB");
+    REQUIRE (h15 - h1 >= 5.0);
+}

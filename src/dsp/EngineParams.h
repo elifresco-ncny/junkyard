@@ -5,6 +5,10 @@ namespace jy
 enum CodecMode { ModeMP3 = 0, ModeStream = 1, ModeBroken = 2 };
 enum ChainOrder { DigitalThenTape = 0, TapeThenDigital = 1 };
 
+// Age knob strength (owner, v1.0.0): the knob drives the Age engine at 1.5 x its value, so Age 67 % sounds like the old
+// Age 100 % and Age 100 % goes half again past it. EngineParams::age is the engine amount (0..kAgeStrength).
+inline constexpr float kAgeStrength = 1.5f;
+
 // Plain snapshot of every parameter, taken once per host block. Percentages are 0..1.
 struct EngineParams
 {
@@ -16,7 +20,7 @@ struct EngineParams
     float swirl = 0.25f, hfLoss = 0.0f, glitch = 0.0f;
 
     bool tapeOn = false;
-    float wow = 0.0f, flutter = 0.0f, saturation = 0.0f /* Drive */, hiss = 0.0f, age = 0.0f;
+    float wow = 0.0f, flutter = 0.0f, saturation = 0.0f /* Drive */, hiss = 0.0f, age = 0.0f /* engine amount: knob x kAgeStrength */;
     float toneHz = 20000.0f; // tape high-frequency rolloff, 20 kHz = off
 
     int order = DigitalThenTape;
